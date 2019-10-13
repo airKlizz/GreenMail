@@ -6,7 +6,7 @@ import nltk
 from googletrans import Translator
 import sys
 sys.path.append("GreenMail")
-sys.path.append(''../')
+sys.path.append('../')
 from function.function import *
 
 # Output :
