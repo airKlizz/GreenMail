@@ -73,9 +73,9 @@ class DataMail:
 
         self.df = pd.concat(frames)
         self.text = self.df['text'].apply(self.text)
-        self.subject_text = self.df['subject'].apply(self.text)
+        #self.subject_text = self.df['subject'].apply(self.text)
         self.translate = self.text.apply(self.translate)
-        self.subject_translate = self.subject_text.apply(self.translate)
+        #self.subject_translate = self.subject_text.apply(self.translate)
 
     def text(self, text):
         text = re.sub(r'https?\S*', '', text)
