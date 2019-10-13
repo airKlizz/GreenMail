@@ -90,12 +90,9 @@ class DataMail:
         return text
 
     def translate(self, text):
-        try:
-            translator = Translator()
-            translation = translator.translate(text)
-            return translation.text
-        except:
-            return text
+        translator = Translator()
+        translation = translator.translate(text)
+        return translation.text
 
     def get_text(self):
         df = self.df.copy()
