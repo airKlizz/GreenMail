@@ -90,8 +90,6 @@ class DataMail:
         return text
 
     def translate(self, text):
-        print(text)
-        print(type(text))
         translator = Translator()
         translation = translator.translate(text)
         return translation.text
