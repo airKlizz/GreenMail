@@ -15,7 +15,7 @@ def progbar(curr, total, full_progbar):
     filled_progbar = round(frac*full_progbar)
     print('\r', '#'*filled_progbar + '-'*(full_progbar-filled_progbar), '[{:>7.2%}]'.format(frac), end='')
 
-def get_dict_from_words(words):
+def get_dict_from_words(words, embedding_file_path='glove.840B.300d.txt'):
     # Input :
     # words : a list of words which we want obtain the embedding from the glove file.
     # Output :
@@ -35,7 +35,6 @@ def get_dict_from_words(words):
     words_dict['$EOF$'] = 0
     words_embedding.append(np.zeros(embedding_dim))
 
-    embedding_file_path = 'glove.840B.300d.txt'
     embedding_file_length = 2200000
     with open(embedding_file_path, 'r',encoding="utf-8") as f:
         curr = 0
