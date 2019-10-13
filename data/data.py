@@ -3,6 +3,7 @@ import pandas as pd
 import mailparser
 import re
 import nltk
+nltk.download('punkt')
 from googletrans import Translator
 import sys
 sys.path.append("GreenMail")
