@@ -100,13 +100,13 @@ class DataMail:
     def get_text(self):
         df = self.df.copy()
         df['text'] = self.text
-        df['subject'] = self.subject_text
+        #df['subject'] = self.subject_text
         del df['html']
         return df
 
     def get_translate(self):
         df = self.df.copy()
         df['text'] = self.translate
-        df['subject'] = self.subject_translate
+        #df['subject'] = self.subject_translate
         del df['html']
         return df
