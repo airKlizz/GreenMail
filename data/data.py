@@ -86,6 +86,16 @@ def get_translated_from_pandas(df):
         df.set_value(i, '2', get_translated_from_string(df['2'][i], translator))
     return df
 
+def get_translated_from_pandas_and_create_csv(df, location_name):
+    translator = Translator()
+    print("Vous avez ", len(df['4']), " mails à traduire \n")
+    for i in range(0, len(df['4'])):
+        print(i, "/", len(df['4']))
+        df.set_value(i, '4', get_translated_from_string(df['4'][i], translator))
+        df.set_value(i, '2', get_translated_from_string(df['2'][i], translator))
+    df.to_csv(location_name)
+    return df
+
 def get_keywords_from_pandas(df, nb_keywords_subject, nb_keywords_text):
     for i in range(0, len(df['4'])):
         df.set_value(i, '4', get_keywords_from_string(df['4'][i], nb_keywords_text))
