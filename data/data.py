@@ -15,7 +15,8 @@ from gensim.summarization import keywords
 
 def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
     ### Connection au client mail ###
-    mail = imaplib.IMAP4_SSL('imap.gmail.com')
+    domain = address.split('@')[1]
+    mail = imaplib.IMAP4_SSL('imap.'+domain)
     mail.login(address, password)
     mail.list()
     mail.select("inbox")
