@@ -1,7 +1,6 @@
 import imaplib
 import pandas as pd
 import mailparser
-import function_mails
 import re
 import nltk
 from nltk import word_tokenize
@@ -14,7 +13,7 @@ from rake_nltk import Rake
 from nltk.corpus import stopwords 
 from gensim.summarization import keywords
 
-def create_csv_gmail(address, password):
+def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
     ### Connection au client mail ###
     mail = imaplib.IMAP4_SSL('imap.gmail.com')
     mail.login(address, password)
@@ -34,6 +33,10 @@ def create_csv_gmail(address, password):
     final_tab = []
     value = False
 
+    if(mails_to_copy != -1):
+        if(mails_to_copy < j):
+            j = mails_to_copy
+    
     for i in range(0,j):
         print(i, "/", j)
         result, data = mail.fetch(id_list[i], "(RFC822)") # recupere donnees du mail en question
@@ -54,7 +57,7 @@ def create_csv_gmail(address, password):
         final_tab.append(tab)
         
     final_tab_df = pd.DataFrame(final_tab)
-    final_tab_df.to_csv("./mails_alex.csv")
+    final_tab_df.to_csv(location_name)
 
 def get_pandas_from_csv(filename):
     df = pd.read_csv(filename)
@@ -64,7 +67,6 @@ def get_pandas_from_list_csv(filenames):
     df = pd.read_csv(filenames[0])
     for i in filenames[1:]:
         df2 = pd.read_csv(i)
-        print(df2)
         df = df.append(df2, ignore_index=True)
     return df
 
