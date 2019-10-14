@@ -5,7 +5,7 @@ for i in range(200001):
 
 print()
 
-words_embedding, words_dict = function.get_dict_from_words(['dad', 'mum', 'son', 'daugther', 'calizzano'], '/content/drive/My Drive/GreenMail/Clustering/glove.840B.300d.txt')
+words_embedding, words_dict = function.get_dict_from_words(['dad', 'mum', 'son', 'daugther', 'calizzano'])
 
 print()
 
