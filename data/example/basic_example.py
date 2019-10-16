@@ -6,7 +6,7 @@ import pandas
 addr = ''
 mdp = ''
 #data.create_csv_mail("./mails.csv", addr, mdp) # Create mail database in a csv file of all the mailbox
-data.create_csv_mail("./mails_test.csv", addr, mdp, mails_to_copy=10) # Create mail database in a csv file of 10 mails in the mailbox
+data.create_csv_mail("./mails_test.csv", addr, mdp, mails_to_copy=10) # Create mail database in a csv file of 10 first mails in the mailbox
 
 list_csv = ["./mails_test.csv", "./mails_test.csv"] # Example of a list of csv file
 df = data.get_pandas_from_list_csv(list_csv) 

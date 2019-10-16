@@ -12,7 +12,7 @@ translator = Translator(service_urls=[
 from nltk.corpus import stopwords 
 from gensim.summarization import keywords
 
-def create_csv_mail(location_name, address, password, mails_to_copy = -1):
+def create_csv_mail(location_name, address, password, mails_from_copy = 0, mails_to_copy = -1):
     ### Connection au client mail ###
     domain = address.split('@')[1]
     mail = imaplib.IMAP4_SSL('imap.'+domain)
@@ -36,8 +36,12 @@ def create_csv_mail(location_name, address, password, mails_to_copy = -1):
     if(mails_to_copy != -1):
         if(mails_to_copy < j):
             j = mails_to_copy
+
+    if(mails_from_copy != 0):
+        if(mails_from_copy >= j):
+            mails_from_copy = 0
     
-    for i in range(0,j):
+    for i in range(mails_from_copy,j):
         print(i, "/", j)
         result, data = mail.fetch(id_list[i], "(RFC822)") # recupere donnees du mail en question
         raw_email = data[0][1] # donnees du mail
