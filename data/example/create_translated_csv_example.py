@@ -16,5 +16,5 @@ df = data.get_translated_from_pandas_and_create_csv(df, "./mails_test_translated
 df_2 = data.get_pandas_from_csv("./mails_test_translated.csv")
 df_2 = data.get_keywords_from_pandas(df_2, 1, 8) # Get 1 keyword from the subject and 8 keywords from the text
 
-print(df_2['2'][10]) # Print subject (['2']) of the 10th mail
-print(df_2['4'][10]) # Print text (['4']) of the 10th mail
+print(df_2['subject'][10]) # Print subject of the 10th mail
+print(df_2['text'][10]) # Print text of the 10th mail
