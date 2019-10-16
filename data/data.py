@@ -13,7 +13,7 @@ from rake_nltk import Rake
 from nltk.corpus import stopwords 
 from gensim.summarization import keywords
 
-def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
+def create_csv_mail(location_name, address, password, mails_to_copy = -1):
     ### Connection au client mail ###
     domain = address.split('@')[1]
     mail = imaplib.IMAP4_SSL('imap.'+domain)
