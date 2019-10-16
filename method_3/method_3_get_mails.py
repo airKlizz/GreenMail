@@ -1,4 +1,6 @@
-import data.data as data
+import sys
+sys.path.append("../data/")
+import data
 import function
 import pandas
 
