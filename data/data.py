@@ -61,17 +61,18 @@ def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
     final_tab_df.to_csv(location_name)
 
 def get_pandas_from_csv(filename):
-    df = pd.read_csv(filename)
+    df = pd.read_csv(filename, index_col=0)
     return df
 
 def get_pandas_from_list_csv(filenames):
-    df = pd.read_csv(filenames[0])
+    df = pd.read_csv(filenames[0], index_col=0)
     for i in filenames[1:]:
-        df2 = pd.read_csv(i)
+        df2 = pd.read_csv(i, index_col=0)
         df = df.append(df2, ignore_index=True)
     return df
 
 def get_txt_from_pandas(df):
+    df_2 = df
     for i in range(0, len(df['4'])):
         df.set_value(i, '4', get_txt_from_string(df['4'][i]))
         df.set_value(i, '2', get_txt_from_string(df['2'][i]))
