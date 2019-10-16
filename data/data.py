@@ -9,11 +9,10 @@ from googletrans import Translator
 translator = Translator(service_urls=[
       'translate.google.com',
     ])
-from rake_nltk import Rake
 from nltk.corpus import stopwords 
 from gensim.summarization import keywords
 
-def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
+def create_csv_mail(location_name, address, password, mails_to_copy = -1):
     ### Connection au client mail ###
     domain = address.split('@')[1]
     mail = imaplib.IMAP4_SSL('imap.'+domain)
@@ -57,50 +56,49 @@ def create_csv_gmail(location_name, address, password, mails_to_copy = -1):
         tab = [from_1, from_2, subject, date, text]
         final_tab.append(tab)
         
-    final_tab_df = pd.DataFrame(final_tab)
+    final_tab_df = pd.DataFrame(final_tab, columns=['from name', 'from address', 'subject', 'date', 'text'])
     final_tab_df.to_csv(location_name)
 
 def get_pandas_from_csv(filename):
-    df = pd.read_csv(filename, index_col=0)
+    df = pd.read_csv(filename)
     return df
 
 def get_pandas_from_list_csv(filenames):
-    df = pd.read_csv(filenames[0], index_col=0)
+    df = pd.read_csv(filenames[0])
     for i in filenames[1:]:
-        df2 = pd.read_csv(i, index_col=0)
+        df2 = pd.read_csv(i)
         df = df.append(df2, ignore_index=True)
     return df
 
 def get_txt_from_pandas(df):
-    df_2 = df
-    for i in range(0, len(df['4'])):
-        df.set_value(i, '4', get_txt_from_string(df['4'][i]))
-        df.set_value(i, '2', get_txt_from_string(df['2'][i]))
+    for i in range(0, len(df['text'])):
+        df.set_value(i, 'text', get_txt_from_string(df['text'][i]))
+        df.set_value(i, 'subject', get_txt_from_string(df['subject'][i]))
     return df
 
 def get_translated_from_pandas(df):
     translator = Translator()
-    print("Vous avez ", len(df['4']), " mails à traduire \n")
-    for i in range(0, len(df['4'])):
-        print(i, "/", len(df['4']))
-        df.set_value(i, '4', get_translated_from_string(df['4'][i], translator))
-        df.set_value(i, '2', get_translated_from_string(df['2'][i], translator))
+    print("Vous avez ", len(df['text']), " mails à traduire \n")
+    for i in range(0, len(df['text'])):
+        print(i, "/", len(df['text']))
+        df.set_value(i, 'text', get_translated_from_string(df['text'][i], translator))
+        df.set_value(i, 'subject', get_translated_from_string(df['subject'][i], translator))
     return df
 
 def get_translated_from_pandas_and_create_csv(df, location_name):
     translator = Translator()
-    print("Vous avez ", len(df['4']), " mails à traduire \n")
-    for i in range(0, len(df['4'])):
-        print(i, "/", len(df['4']))
-        df.set_value(i, '4', get_translated_from_string(df['4'][i], translator))
-        df.set_value(i, '2', get_translated_from_string(df['2'][i], translator))
+    print("Vous avez ", len(df['text']), " mails à traduire \n")
+    for i in range(0, len(df['text'])):
+        print(i, "/", len(df['text']))
+        df.set_value(i, 'text', get_translated_from_string(df['text'][i], translator))
+        df.set_value(i, 'subject', get_translated_from_string(df['subject'][i], translator))
     df.to_csv(location_name)
     return df
 
 def get_keywords_from_pandas(df, nb_keywords_subject, nb_keywords_text):
-    for i in range(0, len(df['4'])):
-        df.set_value(i, '4', get_keywords_from_string(df['4'][i], nb_keywords_text))
-        df.set_value(i, '2', get_keywords_from_string(df['2'][i], nb_keywords_subject))
+    for i in range(0, len(df['text'])):
+        df.set_value(i, 'text', get_keywords_from_string(df['text'][i], nb_keywords_text))
+        df.set_value(i, 'subject', get_keywords_from_string(df['subject'][i], nb_keywords_subject))
     return df
 
 def get_txt_from_string(text):
