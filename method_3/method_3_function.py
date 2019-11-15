@@ -5,6 +5,7 @@ import function
 import data
 import pandas
 import re
+from nltk.corpus import stopwords
 
 def get_list_words(text):
     text = re.sub(r'\S*[0123456789]\S*', '', text)
@@ -34,3 +35,10 @@ def get_dict_and_single_list_words(list_words):
                 dict_words[word] += 1
 
     return dict_words, list_single_words
+
+def delete_stopwords_from_dict(dict_words):
+    for word in stopwords.words('english'):
+        if word in dict_words:
+            dict_words.pop(word, None)
+    
+    return dict_words
