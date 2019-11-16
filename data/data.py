@@ -15,7 +15,7 @@ from gensim.summarization import keywords
 def create_csv_mail(location_name, address, password, mails_from_copy = 0, mails_to_copy = -1):
     ### Connection au client mail ###
     domain = address.split('@')[1]
-    mail = imaplib.IMAP4('imap.'+domain)
+    mail = imaplib.IMAP4_SSL('imap.'+domain)
     mail.login(address, password)
     mail.list()
     mail.select("inbox")
@@ -85,8 +85,8 @@ def get_translated_from_pandas(df):
     print("Vous avez ", len(df['text']), " mails à traduire \n")
     for i in range(0, len(df['text'])):
         print(i, "/", len(df['text']))
-        df.set_value(i, 'text', get_translated_from_string(df['text'][i], translator))
-        df.set_value(i, 'subject', get_translated_from_string(df['subject'][i], translator))
+        df.set_value(i, 'text', get_translated_from_string(get_txt_from_string(df['text'][i]), translator))
+        df.set_value(i, 'subject', get_translated_from_string(get_txt_from_string(df['subject'][i]), translator))
     return df
 
 def get_translated_from_pandas_and_create_csv(df, location_name):
@@ -94,8 +94,8 @@ def get_translated_from_pandas_and_create_csv(df, location_name):
     print("Vous avez ", len(df['text']), " mails à traduire \n")
     for i in range(0, len(df['text'])):
         print(i, "/", len(df['text']))
-        df.set_value(i, 'text', get_translated_from_string(df['text'][i], translator))
-        df.set_value(i, 'subject', get_translated_from_string(df['subject'][i], translator))
+        df.set_value(i, 'text', get_translated_from_string(get_txt_from_string(df['text'][i]), translator))
+        df.set_value(i, 'subject', get_translated_from_string(get_txt_from_string(df['subject'][i]), translator))
     df.to_csv(location_name)
     return df
 
@@ -104,7 +104,6 @@ def get_keywords_from_pandas(df, nb_keywords_subject, nb_keywords_text):
         df.set_value(i, 'text', get_keywords_from_string(df['text'][i], nb_keywords_text))
         df.set_value(i, 'subject', get_keywords_from_string(df['subject'][i], nb_keywords_subject))
     return df
-
 
 def get_keywords_from_pandas_without_nbr(df, nb_keywords_subject, nb_keywords_text):
     """Same the function than "get_keywords_from_pandas" but not return the keyword score"""
@@ -121,9 +120,23 @@ def get_txt_from_string(text):
     text = re.sub(r'-*', '', text)
     text = re.sub(r'_*', '', text)
     text = re.sub(r'<.*>', '', text)
+    text = re.sub(r'&ccedil;','c', text)
+    text = re.sub(r'&euml;','e', text)
+    text = re.sub(r'&auml;','a', text)
+    text = re.sub(r'&acirc;','a', text)
+    text = re.sub(r'&agrave;','a', text)
+    text = re.sub(r'&ecirc;','e', text)
+    text = re.sub(r'&egrave;','e', text)
+    text = re.sub(r'&aacute;','a', text)
+    text = re.sub(r'&eacute;','e', text)
+    text = re.sub(r'&eacute;','e', text)
+    text = re.sub(r'&eacute;','e', text)
+    text = re.sub(r'&nbsp;',' ', text)
+    text = re.sub(r'&rsquo;','\'', text)
     text = nltk.word_tokenize(text)
     text = ' '.join(text)
-    text = re.sub(r"[^\w@()':?;., ]",'', text)
+    text = re.sub(r"[^\w@():?;., ]",'', text)
+
     return text
 
 def get_translated_from_string(text, translator):
@@ -147,7 +160,6 @@ def get_keywords_from_string(text, nb_keywords):
                 print("KEYWORD ERROR")
                 keyw = ""
     return keyw
-
 
 
 def get_keywords_from_string_without_score(text, nb_keywords):
