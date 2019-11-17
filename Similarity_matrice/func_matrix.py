@@ -1,12 +1,13 @@
 import sys
 sys.path.append("../data/")
 sys.path.append("../function/")
+sys.path.append("../method_3")
 import numpy as np
 import function
 import data
 import pandas
 #import spacy
-#nlp = spacy.load('en_core_web_md') 
+#nlp = spacy.load('en_core_web_md')
 import method_3_function as f
 import operator
 
@@ -33,10 +34,10 @@ def get_addr_mat(df):
 ### nb_min is the minimal occurence of the word to return it ###
 def get_all_words(df, nb_min = 1):
     full_text = ""
-    for text in df['text']:
+    for text in df['text']: #We concatenate all the text from the mail
         full_text = full_text + " " + text
-    
-    list_words = f.get_list_words(full_text)
+
+    list_words = f.get_list_words(full_text) #To obtain
     dict_words, list_single_words = f.get_dict_and_single_list_words(list_words)
 
     ### On supprime les mots ayant un nb d'occurence inférieur à nb_min ###
@@ -50,6 +51,3 @@ def get_all_words(df, nb_min = 1):
     sorted_dict = sorted(dict_words_without_stopwords.items(), key=operator.itemgetter(1), reverse=True)
 
     return sorted_dict
-
-
-
