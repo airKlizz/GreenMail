@@ -120,8 +120,3 @@ def minkowski_ditance(vector1,vector2,k=2):
     #Output:
     #minkowski ditance of k degree
     return np.linalg.norm(np.asarray(vector1)-np.asarray(vector2),k)
-
-
-v1 = [3.4,4.6,9.2,1.3,5.7,3.1,9.3,5.6,3]
-v2 = [1.4,6.3,6.8,3.6,1.4,8.3,0.2,4.6,0.5]
-print(minkowski_ditance(v1,v2,3))
