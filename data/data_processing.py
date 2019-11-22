@@ -143,3 +143,24 @@ def get_only_list_words(tab):
             new_list.append(word)
     
     return new_list
+
+def get_urls_from_text_df(text):
+    tab = text.split(',')
+    new_tab = []
+    first = True
+    for elem in tab:
+        if first:
+            new_tab.append(elem[1:-1])
+            first = False
+        else:
+            new_tab.append(elem[2:-1])
+
+    return new_tab
+
+def get_urls(urltext):
+    urls = urltext[1:-1]
+    url_tab = get_urls_from_text_df(urls)
+
+    return url_tab
+
+
