@@ -138,7 +138,7 @@ if __name__ == "__main__":
     mdp = input("password = ")
     filename = input("filename = ")
     nb_from = input("from mail numero = ")
-    nb_to = input("to mail numero = ")
+    nb_to = input("to mail numero (-1 for maximum) = ")
 
     create_csv_mail(filename, addr, mdp, int(nb_from), int(nb_to))
 
