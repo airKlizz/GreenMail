@@ -52,6 +52,10 @@ def create_csv_mail(location_name, address, password, mails_from_copy = 0, mails
         from_1 = email.from_[0][1] # Mail du serveur
         from_2 = email.from_[0][0] # Nom mail du serveur
         subject = email.subject
+        subject = subject_processing(subject)
+        subject = subject_processing2(subject)
+        subject = subject_processing3(subject)
+        subject = subject_processing4(subject)
         date = email.date # Date du mail
         if len(email.text_plain) == 1:
             text = email.text_plain[0]
@@ -132,6 +136,56 @@ def text_processing_4(text):
             tab.append((translator.translate(txt, dest='en')).text)
 
     return tab
+
+def subject_processing(text):
+    text = re.sub(r'<.*>', '', text)
+    text = clean(text,
+        fix_unicode=True,               # fix various unicode errors
+        to_ascii=True,                  # transliterate to closest ASCII representation
+        lower=True,                     # lowercase text
+        no_line_breaks=False,           # fully strip line breaks as opposed to only normalizing them
+        no_urls=False,                  # replace all URLs with a special token
+        no_emails=False,                # replace all email addresses with a special token
+        no_phone_numbers=False,         # replace all phone numbers with a special token
+        no_numbers=False,               # replace all numbers with a special token
+        no_digits=False,                # replace all digits with a special token
+        no_currency_symbols=False,      # replace all currency symbols with a special token
+        no_punct=False,                 # fully remove punctuation
+        replace_with_url="<URL>",
+        replace_with_email="<EMAIL>",
+        replace_with_phone_number="<PHONE>",
+        replace_with_number="<NUMBER>",
+        replace_with_digit="0",
+        replace_with_currency_symbol="<CUR>",
+    )
+
+    text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', text)
+    text = re.sub(r'www\S*', '', text)
+    return text
+
+def subject_processing_2(text):
+    words = text.split()
+    table = str.maketrans('', '', "\!\"#$%&()*+,/:;<=>?@[\]^_`{|}~")
+    stripped = [w.translate(table) for w in words]
+    words = stripped
+    text_2 = ""
+    for word in words:
+        text_2 = text_2 + word + " "
+
+    return text_2
+
+def subject_processing_3(text):
+    text = re.sub(r'---*', '', text)
+    text = re.sub(r'\.\.\.*', '', text)
+    return text
+
+def subject_processing_4(text):
+    text = re.sub(r'\.*', '', text)
+    if text != '':
+        translator = Translator()
+        text = (translator.translate(text, dest='en')).text
+
+    return text
 
 if __name__ == "__main__":
     addr = input("addr = ")
