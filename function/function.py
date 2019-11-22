@@ -112,3 +112,11 @@ def get_cluster_word(labels, num_cluster, words_dict):
 
 def get_cluster_mail(labels, num_cluster, df_mail):
     return df_mail_from_cluster
+
+def minkowski_ditance(vector1,vector2,k=2):
+    #Input :
+    # Two numerical vector of the same size
+    #The degree of the distance desired
+    #Output:
+    #minkowski ditance of k degree
+    return np.linalg.norm(np.asarray(vector1)-np.asarray(vector2),k)
