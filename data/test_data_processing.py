@@ -4,6 +4,9 @@ if __name__ == "__main__":
     filename = input("filename csv = ")
 
     df = d_p.get_pandas_from_csv(filename)
+
+    # Data processing of text #
+
     text = df['text'][0]
     text = text[1:-1]
     tab = d_p.get_sentences_from_text_df(text)
@@ -24,3 +27,9 @@ if __name__ == "__main__":
     text = df['text'][0]
     tab_full_process = d_p.get_full_process(text)
     print("\nTAB_FULL_PROCESS (equivalent): \n", tab_full_process)
+
+    # Data processing of urls #
+
+    urls = df['urls'][1]
+    tab_urls = d_p.get_urls(urls)
+    print("\nTAB_URLS : \n", tab_urls)
