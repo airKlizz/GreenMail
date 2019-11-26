@@ -8,7 +8,6 @@ if __name__ == "__main__":
     # Data processing of text #
 
     text = df['text'][0]
-    text = text[1:-1]
     tab = d_p.get_sentences_from_text_df(text)
     tab_no_short_words = d_p.no_short_words(tab, 3)
     tab_lemmatize = d_p.lemmatize_tab(tab_no_short_words)
@@ -33,3 +32,8 @@ if __name__ == "__main__":
     urls = df['urls'][1]
     tab_urls = d_p.get_urls(urls)
     print("\nTAB_URLS : \n", tab_urls)
+
+    # Entire table of text #
+
+    all_text =  d_p.get_all_text(df)
+    print(all_text)

@@ -41,6 +41,7 @@ def get_pandas_from_csv(filename):
     return df
 
 def get_sentences_from_text_df(text):
+    text = text[1:-1]
     tab = text.split(',')
     new_tab = []
     first = True
@@ -125,7 +126,6 @@ def no_short_words(tab, NB_TO_SUPPRESS = 3):
     return new_tab
 
 def get_full_process(text):
-    text = text[1:-1]
     tab = get_sentences_from_text_df(text)
     tab_no_short_words = no_short_words(tab, 3)
     tab_lemmatize = lemmatize_tab(tab_no_short_words)
@@ -162,5 +162,16 @@ def get_urls(urltext):
     url_tab = get_urls_from_text_df(urls)
 
     return url_tab
+
+def get_text(text):
+    text = get_sentences_from_text_df(text)
+    return ". ".join(text)
+
+def get_all_text(df):
+    tab = []
+    for elem in df['text']:
+        tab.append(get_text(elem))
+    
+    return tab
 
 
