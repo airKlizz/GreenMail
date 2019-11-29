@@ -53,9 +53,9 @@ def create_csv_mail(location_name, address, password, mails_from_copy = 0, mails
         from_2 = email.from_[0][0] # Nom mail du serveur
         subject = email.subject
         subject = subject_processing(subject)
-        subject = subject_processing2(subject)
-        subject = subject_processing3(subject)
-        subject = subject_processing4(subject)
+        subject = subject_processing_2(subject)
+        subject = subject_processing_3(subject)
+        subject = subject_processing_4(subject)
         date = email.date # Date du mail
         if len(email.text_plain) == 1:
             text = email.text_plain[0]
