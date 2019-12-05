@@ -4,12 +4,13 @@ sys.path.append("../data/")
 import data_processing as d_p
 import gensim
 import numpy as np
+import math
 
 def get_vector(tab, nb_topic):
     dic = {}
     for elem in tab:
         dic[elem[0]] = elem[1]
-    
+
     new_tab = []
 
     for i in range(nb_topic):
@@ -17,7 +18,7 @@ def get_vector(tab, nb_topic):
             new_tab.append(dic[i])
         else:
             new_tab.append(0)
-    
+
     return new_tab
 
 def apply_lda_text(elems, nb_topics = 4, nb_passes = 40):
@@ -51,7 +52,7 @@ def apply_lda_text(elems, nb_topics = 4, nb_passes = 40):
         list_vectors.append(get_vector(lda_model[bow_corpus[i]], nb_topics))
 
     return list_topics, list_vectors
-    
+
 def apply_lda_subject(elems, nb_topics = 4, nb_passes = 40):
     nb_mails = len(elems)
     list_topics = []
@@ -91,7 +92,7 @@ def list_sub_to_list_words(list_sub):
             words = elem.split(' ')
             for word in words:
                 list_words.append(word.lower())
-    
+
     return list_words
 
 def similarity_dir(list_sub, list_dir, word_vectors):
@@ -109,7 +110,7 @@ def similarity_dir(list_sub, list_dir, word_vectors):
                 except:
                     pass
         list_sim.append(round(score/count, 3))
-    
+
     return list_sim
 
 def similarity_dir_2(list_sub, list_dir, word_vectors):
@@ -128,5 +129,20 @@ def similarity_dir_2(list_sub, list_dir, word_vectors):
                 except:
                     pass
         list_sim.append(round(100*score/count, 3))
-    
-    return list_sim  
+
+    return list_sim
+
+
+
+
+def Jensen_Shannon(P,Q):
+        M = 0.5*(P+Q)
+        return 1-(math.sqrt(0.5*Kullback_Leibler(P,M)+0.5*Kullback_Leibler(Q,M)))
+
+
+def Kullback_Leibler(P,Q):
+    sum=0
+    for i in range(len(P)):
+
+        sum+=P[i]*math.log(P[i]/Q[i],10)
+    return sum
