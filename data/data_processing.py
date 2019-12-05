@@ -1,9 +1,9 @@
 import pandas as pd
 import re
 import nltk
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+#nltk.download('punkt')
+#nltk.download('averaged_perceptron_tagger')
+#nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
@@ -144,6 +144,14 @@ def get_only_list_words(tab):
     
     return new_list
 
+def get_only_list_words_subject(text):
+    new_list = []
+    words = text.split(' ')
+    for word in words:
+        new_list.append(word)
+        
+    return new_list
+
 def get_urls_from_text_df(text):
     tab = text.split(',')
     new_tab = []
@@ -174,4 +182,23 @@ def get_all_text(df):
     
     return tab
 
+def get_full_process_subject(text):
+    if type(text) == float:
+        text = ""
+    text_no_short_words = no_short_words_sentence(text, 3)
+    text_lemmatize = lemmatize_sentence(text_no_short_words)
+    text_no_stopwords = delete_stopwords_sentence(text_lemmatize)
+    text_stemmed = stemmed_sentence(text_no_stopwords)
+    text_no_number = no_number_sentence(text_stemmed)
+
+    return text_no_number
+
+def get_full_process_directory(list):
+    new_list = []
+    for word in list:
+        word = lemmatizer.lemmatize(word)
+        word = stemmer.stem(word)
+        new_list.append(word)
+    
+    return new_list
 
