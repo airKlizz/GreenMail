@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 from sklearn.datasets.samples_generator import make_blobs
 from sklearn.cluster import KMeans
 import random as rd
 from scipy import spatial
-from scipy.cluster.hierarchy import dendrogram, linkage
-import scipy.spatial.distance as ssd
 from sklearn.cluster import KMeans
+import scipy.spatial.distance as ssd
+from scipy.cluster.hierarchy import dendrogram, linkage
+from matplotlib import pyplot as plt
 
 
 
@@ -101,10 +101,10 @@ def heat_map(similarity_matrix, labels):
 
 # display the dendogram created from the similarity matrix
 # hyperparameters : you can change the linkage method
-def dendrogram(similarity_matrix, labels, method='weighted'):
+def display_dendrogram(similarity_matrix, labels, method='weighted'):
 	distVec = ssd.squareform(similarity_matrix)
-	linkage = linkage(y=(1 - distVec), method=method)
-	dendro  = dendrogram(linkage, labels=labels)
+	link = linkage(y=(1 - distVec), method=method)
+	dendro  = dendrogram(link, labels=labels)
 	plt.show()
 
 # return an array of size len(similarity_matrix) where the value is the cluster of the mail
