@@ -54,11 +54,14 @@ def kmeans(Distance_mat,K,n_iter):
     Centroids=[]
     for key,value in Y.items():
         min =sum_distance(Distance_mat,value[0],value)
+        point = value[0]
         for point in value:
             sum = sum_distance(Distance_mat,point,value)
             if sum<min:
-                min=point
-        Centroids.append(min)
+                #min=point
+                min=sum
+        #Centroids.append(min)
+        Centroids.append(point)
     #Now we need to repeat step 2 till convergence is achieved. In other words, we loop over n_iter and repeat the step 2.a and 2.b as shown
     for i in range(n_iter):
         #step 2.a
@@ -79,11 +82,23 @@ def kmeans(Distance_mat,K,n_iter):
             for point in value:
                 sum = sum_distance(Distance_mat,point,value)
                 if sum<min:
-                    min=point
-            Centroids.append(min)
+                    min=sum
+            Centroids.append(point)
         Output=Y
     return Output,Centroids
 
+def output_kmean_to_list(Output,number_of_mail):
+    """Methods to convert the output of the kmeans algo to a list
+    Input : a dict of the form {1:[0,2,...], 2:[43,22,5,....]?3:{21,32,25,..},...}
+            With the index of cluster as key and list of (index) of the mails whiche belong to the cluster as value
+    Output : A list of the form [0,2,2,3,1,2,3,4,5,....] of the cluster associate to each mail"""
+
+    list_clustering=[1]*number_of_mail  #output of the function
+    for index_cluster,list_mail in Output.items():
+        for mail in list_mail:
+            list_clustering[mail] = index_cluster
+
+    return list_clustering
 
 
 
