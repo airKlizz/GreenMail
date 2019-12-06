@@ -101,7 +101,6 @@ def output_kmean_to_list(Output,number_of_mail):
     return list_clustering
 
 
-
 # display the heat map labelled
 def heat_map(similarity_matrix, labels):
 	fig, ax = plt.subplots()
