@@ -104,6 +104,7 @@ def heat_map(similarity_matrix, labels):
 def display_dendrogram(similarity_matrix, labels, method='weighted'):
 	distVec = ssd.squareform(similarity_matrix)
 	link = linkage(y=(1 - distVec), method=method)
+	link[link < 0] = 0
 	dendro  = dendrogram(link, labels=labels)
 	plt.show()
 
