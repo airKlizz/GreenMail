@@ -15,13 +15,19 @@ list_directories = [["shopping", "orders", "purchases", "orders", "receipt", "re
 if __name__ == "__main__":
     
     # Parameters #
-    nb_topics = 5
-    nb_passes = 80
-    nb_clusters = 5
+    nb_topics = 10
+    nb_passes = 8
+    nb_clusters = 10
 
-    # Get csv #
-    filename = "../data/mails_0_50.csv"
-    df = d_p.get_pandas_from_csv(filename)
+    # Get csvs #
+    filename = ["../data/mails_0_50.csv", 
+    "../data/mails_51_100.csv",
+    "../data/mails_101_150.csv",
+    "../data/mails_151_200.csv",
+    "../data/mails_201_250.csv",
+    "../data/mails_251_400.csv",
+    "../data/mails_401_700.csv"]
+    df = d_p.get_pandas_from_csvlist(filename)
     
     # LDA on text #
     print("Running LDA on text...")
@@ -72,17 +78,34 @@ if __name__ == "__main__":
 
 
     ## EXPERIMENTAL (optional) ##
+    print("\n\nYOU ENTER THE EXPERIMENTAL AREA\n\n")
+    string_test = "What do you want to do ?\n" + "0 : Quit\n" + "1 : Get similarity between clusters and possible directory names\n" + "2 : Try to run LDA but only to get themes for each cluster\n" + "3 : Redisplay mails in a cluster\n" + "Answer : "
+    test = input(string_test)
+    while(int(test) != 0):
+        if int(test) == 1:
+            
+            word_vectors = api.load("glove-wiki-gigaword-100")  # load pre-trained word-vectors from gensim-data
 
-    yes_no = input("Do you want to try experimental stuff ? (y/n) : ")
-    if yes_no == 'y':
+            # From categories to most likely directory name #
+            for i in range(nb_clusters):
+                list_sim = lda.similarity_dir(matrix_mails[i], list_directories, word_vectors)
+                list_sim2 = lda.similarity_dir_2(matrix_mails[i], list_directories, word_vectors)
+                print("Cluster ", i)
+                print(list_sim)
+                print(list_sim2)
         
-        word_vectors = api.load("glove-wiki-gigaword-100")  # load pre-trained word-vectors from gensim-data
+        elif int(test) == 2:
+            cluster_to_test = input("Which cluster to get themes from LDA ?\n" + "From 0 to " + str(nb_clusters-1) + " : ")
+            print("Running LDA on subjects cluster", cluster_to_test, "...")
+            topics_0 , vectors_0 = lda.apply_lda_subject(matrix_mails[int(cluster_to_test)], nb_topics=1, nb_passes=3)
+            topics_0_ev , vectors_0_ev = lda.apply_lda_subject(matrix_mails[int(cluster_to_test)], nb_topics=1, nb_passes=30)
+            print(topics_0)
+            print(topics_0_ev)
 
-        # From categories to most likely directory name #
-        for i in range(nb_clusters):
-            list_sim = lda.similarity_dir(matrix_mails[i], list_directories, word_vectors)
-            list_sim2 = lda.similarity_dir_2(matrix_mails[i], list_directories, word_vectors)
-            print("Cluster ", i)
-            print(list_sim)
-            print(list_sim2)
-
+        elif int(test) == 3:
+            cluster_to_test = input("Which cluster to get mails from ?\n" + "From 0 to " + str(nb_clusters-1) + " : ")
+            for elem in matrix_mails[int(cluster_to_test)]:
+                print(elem)
+        
+        print()
+        test = input(string_test)

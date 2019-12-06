@@ -40,6 +40,9 @@ def get_pandas_from_csv(filename):
     df = pd.read_csv(filename, index_col=0)
     return df
 
+def get_pandas_from_csvlist(flist):
+    return pd.concat([pd.read_csv(f, index_col=0) for f in flist], ignore_index=True)
+
 def get_sentences_from_text_df(text):
     text = text[1:-1]
     tab = text.split(',')
